@@ -3,7 +3,7 @@ from evaluation import evaluate_position
 from search import minimax_search
 
 class ChessBot:
-    def __init__(self, depth=4):  # Increased from 4 to 6
+    def __init__(self, depth=4): 
         self.name = "SmartBot"
         self.search_depth = depth
         self.bot_color = None
@@ -17,11 +17,9 @@ class ChessBot:
         if not board.legal_moves:
             return None
 
-        # Set bot color if not already set
         if self.bot_color is None:
             self.bot_color = board.turn
 
-        # Determine if bot should maximize or minimize
         bot_is_maximizing = (self.bot_color == chess.WHITE)
 
         _, best_move = minimax_search(
