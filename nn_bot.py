@@ -15,11 +15,10 @@ class NNChessBot:
         if not legal_moves:
             return None
 
-        # Use temperature in early game for variety
+        # Use temperature 
         move_number = board.fullmove_number
-        temperature = max(0.1, 1.5 - 0.06 * move_number)  # Start at 1.5, drop per move
+        temperature = max(0.1, 1.5 - 0.06 * move_number)  
 
-        # Use a shallow NN-minimax (default: 1-ply)
         scored_moves = []
         for move in legal_moves:
             board.push(move)
@@ -27,14 +26,11 @@ class NNChessBot:
             board.pop()
             scored_moves.append((move, score))
 
-        # Prepare scores for softmax (Black minimizes, flip sign)
         scores = np.array([score if self.color == chess.WHITE else -score for (_, score) in scored_moves])
 
-        # Softmax with temperature (for stochastic selection)
         exp_scores = np.exp(scores / temperature)
         probs = exp_scores / np.sum(exp_scores)
 
-        # Sample a move for variety (greedier/lower T in endgame)
         move = np.random.choice([m for (m, _) in scored_moves], p=probs)
         return move
 
