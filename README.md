@@ -20,7 +20,8 @@ A Python-based chess engine matchup: traditional alpha-beta minimax bot vs. a ne
 - `tensorflow` (for neural network)
 - `numpy`
 - `tkinter` (for GUI; usually included with Python)
-- Stockfish binary (for training)
+- Stockfish binary (for training) :https://stockfishchess.org/download/
+
 
 Install requirements via pip:
 ```bash
