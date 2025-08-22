@@ -15,13 +15,12 @@ def generate_training_data(pgn_path, stockfish_path, max_games=100):
             for move in game.mainline_moves():
                 board.push(move)
                 arr = encode_board(board)
-                info = stockfish.analyse(board, chess.engine.Limit(depth=12))  # Deeper analysis
+                info = stockfish.analyse(board, chess.engine.Limit(depth=12))  
                 score = info["score"].white().score(mate_score=10000)
-                # Better normalization
-                score = np.tanh(score / 500.0)  # Use tanh for smoother scaling
+                score = np.tanh(score / 500.0)  
                 X.append(arr)
                 y.append(score)
-                if len(X) >= 10000: break  # More training data
+                if len(X) >= 10000: break  
             if len(X) >= 10000: break
     X = np.array(X)
     y = np.array(y)
@@ -29,8 +28,7 @@ def generate_training_data(pgn_path, stockfish_path, max_games=100):
 
 def train_and_save(X, y, save_path):
     model = create_nn_model()
-    
-    # Better training with callbacks
+
     callbacks = [
         tf.keras.callbacks.EarlyStopping(
             monitor='val_loss', 
@@ -46,9 +44,9 @@ def train_and_save(X, y, save_path):
     
     model.fit(
         X, y, 
-        epochs=100,  # More epochs with early stopping
-        batch_size=32,  # Smaller batch size
-        validation_split=0.2,  # More validation data
+        epochs=100,  
+        batch_size=32,  
+        validation_split=0.2,  
         callbacks=callbacks,
         verbose=1
     )
