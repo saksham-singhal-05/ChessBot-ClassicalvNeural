@@ -3,7 +3,6 @@ import tensorflow as tf
 def create_nn_model():
     inputs = tf.keras.Input(shape=(8,8,12))
     
-    # More convolutional layers with batch normalization
     x = tf.keras.layers.Conv2D(64, 3, padding='same', activation='relu')(inputs)
     x = tf.keras.layers.BatchNormalization()(x)
     x = tf.keras.layers.Conv2D(128, 3, padding='same', activation='relu')(x)
@@ -13,10 +12,8 @@ def create_nn_model():
     x = tf.keras.layers.Conv2D(64, 3, padding='same', activation='relu')(x)
     x = tf.keras.layers.BatchNormalization()(x)
     
-    # Global average pooling instead of flatten (reduces overfitting)
     x = tf.keras.layers.GlobalAveragePooling2D()(x)
     
-    # Dense layers with dropout
     x = tf.keras.layers.Dense(256, activation='relu')(x)
     x = tf.keras.layers.Dropout(0.3)(x)
     x = tf.keras.layers.Dense(128, activation='relu')(x)
